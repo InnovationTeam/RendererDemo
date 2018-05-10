@@ -5,43 +5,12 @@
 
 <script>
 import Hierarchy from './Hierarchy/Hierarchy';
-
+import store from '../store/layer_data';
 export default {
   name: 'TestHierarchy',
   data () {
     return {
-      data: {
-		"type": "root",
-		"elemid": 'root',
-        "children": [
-          {
-            "type": "element",
-            "tag": "div",
-			"elemid": 'div1',
-			"children": [
-                {
-                    "type": "element",
-                    "tag": "p",
-                    "elemid": 'p2',
-                    "children": []
-                },
-                {
-                    "type": "element",
-                    "tag": "div",
-                    "elemid": 'div3',
-                    "children": [
-                        {
-                            "type": "element",
-                            "tag": "p",
-                            "elemid": 'p4',
-                            "children": []
-                        }
-                    ]
-                }
-            ]
-          }
-        ]
-      }
+      data: store.state.json
     }
   },
   components:{

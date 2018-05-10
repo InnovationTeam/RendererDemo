@@ -7,42 +7,11 @@
 </template>
 
 <script>
-
+import store from '../../store/layer_data';
 var source_node, source_par;
 var tag_dict = new Array();
 
-var data = {
-    "type": "root",
-    "elemid": 'root',
-    "children": [
-        {
-            "type": "element",
-            "tag": "div",
-            "elemid": 'div1',
-            "children": [
-                {
-                    "type": "element",
-                    "tag": "p",
-                    "elemid": 'p2',
-                    "children": []
-                },
-                {
-                    "type": "element",
-                    "tag": "div",
-                    "elemid": 'div3',
-                    "children": [
-                        {
-                            "type": "element",
-                            "tag": "p",
-                            "elemid": 'p4',
-                            "children": []
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-};
+var data = store.state.json;
 
 export default {
     name: 'Layer',

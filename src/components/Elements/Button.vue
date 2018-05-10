@@ -1,6 +1,11 @@
 <template>
-    <div class="button">
-        <button :class="this.attr['class']">按钮</button>
+    <div class="button" >
+        <button :class="this.classList" :style="this.attr['style']" :disabled="this.disabled">
+            <template v-if="this.attr['loading'] === 'true'">
+                <img :class="this.size? 'button-attr-loading-default' : 'button-attr-loading-mini'" src="../../../static/images/loading.gif">
+            </template>
+            {{this.children[0].text}}
+        </button>
     </div>
 </template>
 
@@ -12,8 +17,81 @@ export default {
       attr: Object,
       children: Array
   },
-  methods: {
-      
+  computed: {
+      classList: function(){
+        var classlist = this.attr['class'];
+
+        if(!classlist){
+            classlist = new Array();
+        }
+
+        var type = this.attr['type'];
+        var size = this.attr['size'];
+
+        var disabled = this.attr['disabled'] === 'true';
+        var plain = this.attr['plain'] === "true";
+
+        if(type){
+            switch(type){
+                case "default":
+                    classlist.push('button-type-default');
+                    if(plain){
+                        classlist.push('button-attr-default-plain');
+                    }
+                    break;
+                case "primary":
+                    classlist.push('button-type-primary');
+                    if(plain){
+                        classlist.push('button-attr-primary-plain');
+                    }
+                    break;
+                case "warn":
+                    classlist.push('button-type-warn');
+                    if(plain){
+                        classlist.push('button-attr-warn-plain');
+                    }
+                    break;
+            }
+        }else{
+            classlist.push('button-type-default');
+            if(plain){
+                classlist.push('button-attr-default-plain');
+            }
+        }
+
+        if(size){
+            switch(size){
+                case "default":
+                    classlist.push('button-size-default');
+                    break;
+                case "mini":
+                    classlist.push('button-size-mini');
+                    break;
+                default:
+                    break;
+            }
+        }else{
+            classlist.push('button-size-default');
+        }
+
+
+        if(disabled){
+            classlist.push('button-attr-disabled');
+        }
+        
+        return classlist;
+      },
+      size: function(){
+          if(this.attr['size']){
+              return this.attr['size'] === 'default';
+          }else{
+              return true;
+          }
+      },
+      disabled: function(){
+          return this.attr['disabled'] === 'true';
+      }
+
   }
 }
 </script>
@@ -94,6 +172,10 @@ button{
 .button-attr-loading-mini{
 	height: 10px;
 	padding-right: 1px;
+}
+
+.button-attr-disabled{
+	opacity:0.4;
 }
 </style>
 

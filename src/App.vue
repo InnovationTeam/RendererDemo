@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Test from './components/TestHierarchy'
-// import Test from './components/TestRenderer'
+// import Test from './components/TestHierarchy'
+import Test from './components/TestRenderer'
 
 export default {
   name: 'App',
