@@ -4,8 +4,9 @@
 
 <script>
 import View from '../Elements/View';
-import Img from '../Elements/Img';
+import Image from '../Elements/Image';
 import Button from '../Elements/Button';
+import Icon from '../Elements/Icon';
 
 export default {
   name: 'Element',
@@ -13,8 +14,9 @@ export default {
       return {
           elements: {
               'view': 'view-elem',
-              'img': 'img-elem',
-              'button': 'button-elem'
+              'image': 'image-elem',
+              'button': 'button-elem',
+              'icon': 'icon-elem'
           }
       }
   },
@@ -25,8 +27,9 @@ export default {
   },
   components: {
       'view-elem': View,
-      'img-elem': Img,
-      'button-elem': Button
+      'image-elem': Image,
+      'button-elem': Button,
+      'icon-elem': Icon
   }
 }
 </script>

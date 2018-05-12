@@ -66,50 +66,32 @@ export default new Vuex.Store({
                         },
                         {
                             "type": "element",
-                            "tag": "button",
-                            "elemid": 'button5',
+                            "tag": "icon",
+                            "elemid": 'icon5',
                             "attr": {
-                                "type": "primary",
-                                "size": "mini"
-                            },
-                            "children": [
-                                {
-                                    "type": "text",
-                                    "text": "按钮"
-                                }
-                            ]
+                                "type": "success",
+                                "size": "40",
+                                "color": 'red'
+                            }
                         },
                         {
                             "type": "element",
-                            "tag": "button",
-                            "elemid": 'button6',
+                            "tag": "icon",
+                            "elemid": 'icon6',
                             "attr": {
-                                "type": "warn",
-                                "size": "mini",
-                                "disabled": "true"
-                            },
-                            "children": [
-                                {
-                                    "type": "text",
-                                    "text": "按钮"
-                                }
-                            ]
+                                "type": "search",
+                                "color": 'blue'
+                            }
                         },
                         {
                             "type": "element",
-                            "tag": "button",
-                            "elemid": 'button7',
+                            "tag": "icon",
+                            "elemid": 'icon7',
                             "attr": {
-                                "type": "default",
-                                "size": "mini",
-                                "loading": "true"
-                            },
-                            "children": [
-                                {
-                                    "type": "text",
-                                    "text": "按钮"
-                                }
-                            ]
+                                "type": "success_no_circle",
+                                "size": '30',
+                                "color": 'yellow'
+                            }
                         }
                     ]
                 }
