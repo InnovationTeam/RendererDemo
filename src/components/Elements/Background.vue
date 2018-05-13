@@ -1,0 +1,44 @@
+<template>
+  <div class="background">
+		<div class="topBar">
+			<span>●●●●●</span> WeChat<img src="wifi.png" :style="this.attr['style']">
+			<span style="margin-left: 45%">
+				100%<img src="power.png" style="height: 12px;margin-left: 2px;">
+			</span>
+		</div>
+		<div class="navigationBar">
+			<span style="margin-left: 40%;margin-right: 30%">WeChat</span> •●•
+		</div>
+	</div>
+</template>
+
+
+<script>
+export default {
+  props:{
+      attr:Object,
+      children:Array
+  }
+}
+</script>
+
+
+<style>
+	
+	.background{
+		margin: auto;
+		width: 360px;
+		height:600px;
+		padding-left: 10px;
+		border: #3D3B3B solid 1px;
+	}
+
+	.topBar{
+		width: 360px;
+		height: 20px;
+		font-size: 13px;
+		margin-bottom: 30px;
+		
+	}
+	
+</style>

@@ -1,6 +1,6 @@
 <template>
     <div class="image">
-        <img src="image1.jpg">
+        <img :src="this.attr['src']" :style="this.attr['style']">
     </div>
 </template>
 
@@ -14,10 +14,15 @@ export default {
   },
   methods: {
 
+  },
+  mounted(){
+      console.log(this.attr['src']);
   }
 }
 </script>
 
 <style>
-
+img{
+    width:100px
+}
 </style>

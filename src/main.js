@@ -8,7 +8,7 @@ import router from './router'
 import store from './store'
 
 import Renderer from './components/Renderer'
-
+import $ from 'jquery'
 Vue.config.productionTip = false
 
 Vue.use(Renderer);

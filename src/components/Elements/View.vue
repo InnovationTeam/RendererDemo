@@ -1,5 +1,5 @@
 <template>
-  <div :style="attr['style']">
+  <div class="view" :style="attr['style']">
     <Renderer :children="this.children"></Renderer>      
   </div>
 </template>
