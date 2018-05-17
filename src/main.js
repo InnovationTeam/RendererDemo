@@ -8,10 +8,12 @@ import router from './router'
 import store from './store'
 
 import Renderer from './components/Renderer'
+import Hierarchy from './components/Hierarchy'
 
 Vue.config.productionTip = false
 
 Vue.use(Renderer);
+Vue.use(Hierarchy);
 
 /* eslint-disable no-new */
 new Vue({

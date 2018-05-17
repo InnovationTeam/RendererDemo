@@ -7,7 +7,8 @@
 
 <script>
 // import Test from './components/TestHierarchy'
-import Test from './components/TestRenderer'
+// import Test from './components/TestRenderer'
+import Test from './components/TestSwitch'
 
 export default {
   name: 'App',

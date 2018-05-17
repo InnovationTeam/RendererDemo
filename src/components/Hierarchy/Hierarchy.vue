@@ -1,33 +1,24 @@
 <template>
-    <div class="list">
-        <template v-if="children && children.length">
-
-            <layer :element="jsonData"></layer>
-
-            <div class="children">
-                <template v-for="child in children">
-                    <Hierarchy :jsonData="child" :key="child.id"></Hierarchy>
-                </template>
-            </div>
-        </template>
-        <template v-else>
-            <layer :element="jsonData"></layer>
+    <div v-if="children" class="list">
+        <template v-for="child in children">
+            <layer :element="info[child]" :key="child.id"></layer>
         </template>
     </div>
 </template>
 
 <script>
 import Layer from './Layer';
+import store from '../../store/layer_data';
 
 export default {
   name: 'Hierarchy',
-  props: {
-      jsonData: Object
-  },
-  computed:{
-      children() {
-          return this.jsonData.children
+  data(){
+      return {
+          info: store.state.json.info
       }
+  },
+  props: {
+      children: Array
   },
   components: {
       'layer': Layer
@@ -38,11 +29,11 @@ export default {
 
 <style>
 .list {
-  padding: 0px;
-  width: 300px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+
+    /* background-color: #2A3047; */
 }
 
-.children{
-    margin-left: 10px;
-}
 </style>
