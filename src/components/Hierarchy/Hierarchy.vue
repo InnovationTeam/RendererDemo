@@ -1,6 +1,6 @@
 <template>
-    <div v-if="children" class="list">
-        <template v-for="child in children">
+    <div v-if="this.children.length > 0" class="list">
+        <template v-for="child in this.children">
             <layer :element="info[child]" :key="child.id"></layer>
         </template>
     </div>
@@ -19,6 +19,11 @@ export default {
   },
   props: {
       children: Array
+  },
+  computed: {
+      message: function(){
+          console.log(this.info);
+      }
   },
   components: {
       'layer': Layer

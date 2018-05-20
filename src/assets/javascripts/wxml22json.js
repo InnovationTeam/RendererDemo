@@ -33,7 +33,8 @@ function findParent_json_and_insert(id,father_id, info){
 //输入原始标准json，输出新格式json
 function generate_json(origin_json){
   var id_json = {};
-  var root_id = 'root';
+//   var root_id = 'root';
+var root_id = "main";
   for(var i=0; i<origin_json.children.length; i++) 
   { 
   if(!id_json.hasOwnProperty("children"))
@@ -57,21 +58,35 @@ function identify_json(id_json, father_id, child_id, data){
   temp["children"] = new Array();
   // 文本text没有childrem
   if(data.hasOwnProperty("children")){
-  for(var i=0; i<data.children.length; i++) 
+    for(var i=0; i<data.children.length; i++) 
     { 
         if(!temp.hasOwnProperty("children"))
             temp["children"] = new Array();
-      temp["children"].push(nanoid(10)); 
+        temp["children"].push(nanoid(10)); 
     }
   }
   temp["fatherID"] = father_id;
   temp["cfgData"] = {};
   for(var k in data["attr"]){
-      if(data["attr"][k] === "true")
-         data["attr"][k] = true;
-      if(data["attr"][k] === "false")
-         data["attr"][k] = false;
-      temp["cfgData"][k] = data["attr"][k];
+        var prop;
+        if(k === 'class'){
+            prop = 'domClass';
+            temp["cfgData"][prop] = data["attr"][k].split(" "); 
+        }else if(k === 'style'){
+            prop = 'domStyle';
+            temp["cfgData"][prop] = data["attr"][k]
+        }else if(k === 'id'){
+            prop = 'domID';
+            temp["cfgData"][prop] = data["attr"][k]
+        }else{
+            prop = k;
+            if(data["attr"][k] === "true")
+                data["attr"][k] = true;
+            if(data["attr"][k] === "false")
+                data["attr"][k] = false;
+            
+            temp["cfgData"][prop] = data["attr"][k]
+        }
   }
   temp["type"] = data["type"];
   if(temp["type"] === "text"){
@@ -89,40 +104,95 @@ function identify_json(id_json, father_id, child_id, data){
   return temp;
 }
 
+
+function generate_text(new_json){
+    let new_new_json = {};
+    new_new_json["children"] = new Array();
+    new_new_json["info"] = {};
+    let children = new_json["children"];
+    for(let i=0; i<children.length; i++) 
+    {   
+        new_new_json["children"].push(children[i]);
+        //
+        new_new_json["info"][children[i]] = new_json["info"][children[i]];
+        filter_text(children[i], new_json, new_new_json);
+    }
+    return new_new_json;
+}
+
+function filter_text(father_id, new_json, new_new_json){
+    let children = new_json["info"][father_id]["children"];
+    for(let i=0; i<children.length; i++) 
+    {
+        if(new_json["info"][children[i]]["type"]==='text'){
+            new_json["info"][father_id]['cfgData']["text"] = new_json["info"][children[i]]['cfgData']["text"];
+            let t_id = children[i];
+            new_json["info"][father_id]["children"].splice(i, 1);
+        }
+        else{
+            new_new_json["info"][children[i]] = new_json["info"][children[i]];
+            filter_text(children[i],new_json, new_new_json);
+        }
+    }
+}
+
 //输入新格式json，输出标准格式json
 function recover_json(new_json){
     let origin_json = {};
     origin_json["type"] = 'root';
     origin_json["children"] = new Array();
     let child_ids =  new_json["children"];
-    let child_maps = new Array();
+    // let child_maps = new Array();
+    // for(let i=0;i<child_ids.length;i++){
+    //     child_maps[child_ids[i]]=0;
+    // }
     for(let i=0;i<child_ids.length;i++){
-        child_maps[child_ids[i]]=0;
-    }
-    for(let i=0;i<child_ids.length;i++){
-        if(child_maps[child_ids[i]] === 0)
-            origin_json["children"].push(findChild_json_and_insert(new_json, child_ids[i], child_maps));
+        // if(child_maps[child_ids[i]] === 0)
+            origin_json["children"].push(findChild_json_and_insert(new_json, child_ids[i]));
     }
     return origin_json;
 }
 
 //为上者生成过程中所调用方法，输入为新格式json，寻找子组件的id，
 //还有已经添加的子组件child_maps，防止重复添加(由于根存的不是所有子组件的id)
-function findChild_json_and_insert(new_json, id, child_maps){
-    if(child_maps[id] ===0)
-        child_maps[id] = 1;
+function findChild_json_and_insert(new_json, id){
+    // if(child_maps[id] ===0)
+        // child_maps[id] = 1;
     let temp ={};
-    temp["id"] = id;
+    // temp["id"] = id;
     temp["type"] = new_json["info"][id]["type"];
     if(temp["type"] !== 'text'){
         temp["tag"] = new_json["info"][id]["tagName"];
-        temp["attr"] = new_json["info"][id]["cfgData"];
-        temp["attr"]["id"] = id;
+        // temp["attr"] = new_json["info"][id]["cfgData"];
+        var obj = new_json["info"][id]["cfgData"];
+        var textChild = {};
+        temp["attr"] = {};
+        for(var prop in obj){
+            if(prop === 'domClass'){
+                temp["attr"]["class"] = obj[prop].join(' ');
+            }else if(prop === 'domStyle'){
+                temp["attr"]["style"] = obj[prop];
+            }else if(prop === 'domID'){
+                temp['attr']['id'] = obj[prop];
+            }else if(prop === 'text'){
+                textChild.type = 'text';
+                textChild.text = obj[prop];
+            }else{
+                temp['attr'][prop] = obj[prop];
+            }
+        }
+
+
+        // temp["attr"]["id"] = id;
         let child_ids = new_json["info"][id]["children"];
         temp["children"] = new Array();
         for(let i=0;i<child_ids.length;i++){
-            if(child_maps[child_ids[i]] === 0)
-                 temp["children"].push(findChild_json_and_insert(new_json, child_ids[i], child_maps));
+            // if(child_maps[child_ids[i]] === 0)
+                 temp["children"].push(findChild_json_and_insert(new_json, child_ids[i]));
+        }
+
+        if(textChild.type === 'text'){
+            temp["children"].push(textChild);
         }
     }
     else{
@@ -138,8 +208,20 @@ var nanoid = require('nanoid');
 
 module.exports.wxml2json = function(wxml){
     let origin_json = wxml2json(wxml);
+    console.log(origin_json);
     let new_json = generate_json(origin_json);
-    return new_json;
+    let new_new_json = generate_text(new_json);
+    // let new_new_json = {};
+    // new_new_json["info"] = {};
+    // new_new_json["children"] = new Array();
+    // console.log(new_json["children"].length);
+    // for(let i=0;i<new_json["children"].length;i++){
+    //     new_new_json["children"].push(new_json["children"][i]);
+    //     if(text_id.indexOf(new_json["children"][i]===-1)){
+    //         new_new_json["info"][new_json["children"][i]] = new_json["info"][new_json["children"][i]];
+    //     }
+    // }
+    return new_new_json;
 }
 
 module.exports.json2wxml = function(json){
@@ -158,4 +240,3 @@ module.exports.move = function(f_id, t_id, json){
     t.push(rec_wxml);
     return t;
 }
-

@@ -1,12 +1,12 @@
 <template>
-    <div v-if="this.element.type != 'text'"  
+    <div 
         @dragstart="dragstart_handler($event);" @dragover="dragover_handler($event);" @drop="drop_handler($event);"
         @dragenter="dragenter_handler($event)" @dragleave="dragleave_handler($event)" @click="click($event)"
         :draggable="true" :id="this.element.id" class="draggable">
 
-        <template v-if="this.hasChildren">
+        <!-- <template v-if="this.hasChildren"> -->
             <span class="folderIcon"><icon iconType="angle_right"/></span>
-        </template>
+        <!-- </template> -->
         
         {{GetID()}}
 
@@ -99,20 +99,20 @@ export default {
         }
     },
     computed: {
-        hasChildren: function(){
-            if(this.element.children.length > 1){
-                return true;
-            }else if(this.element.children.length === 1){
-                var info = store.state.json.info;
-                if(info[this.element.children[0]].type != 'text'){
-                    return true;
-                }else{
-                    return false;
-                }
-            }else{
-                return false;
-            }
-        }
+        // hasChildren: function(){
+        //     if(this.element.children.length > 1){
+        //         return true;
+        //     }else if(this.element.children.length === 1){
+        //         var info = store.state.json.info;
+        //         if(info[this.element.children[0]].type != 'text'){
+        //             return true;
+        //         }else{
+        //             return false;
+        //         }
+        //     }else{
+        //         return false;
+        //     }
+        // }
     },
     components: {
         'icon': Icon
